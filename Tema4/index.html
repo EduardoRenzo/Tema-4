@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<!-- saved from url=(0047)https://almeida-cma.github.io/FP_T04/teste.html -->
+<html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Primeiro Web App - Lanchonete</title>
+    <style>
+        /* CSS: Aqui definimos a APARÊNCIA (O Estilo) */
+        :root {
+            --primary: #00f7ff; /* Cor de "Lanche" */
+            --dark: #471e8a;
+            --light: #1138a3;
+            --success: #26a5c5;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #1316e6d2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* Container Principal Responsivo */
+        .app-container {
+            width: 90%;
+            max-width: 400px;
+            background: rgb(7, 37, 167);
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(10, 88, 189, 0.1);
+            overflow: hidden;
+            border: 2px solid #0585a5;
+        }
+
+        /* Cabeçalho do App */
+        .header {
+            background-color: var(--primary);
+            color: rgb(0, 110, 255);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 { margin: 0; font-size: 1.5rem; }
+        .header p { margin: 5px 0 0; font-size: 0.9rem; opacity: 0.9; }
+
+        /* "Tela" do Sistema - Onde a lógica aparece */
+        #tela-saida {
+            background-color: var(--dark);
+            color: #04e6ee; /* Cor clássica de terminal */
+            padding: 15px;
+            height: 150px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-y: auto;
+            border-bottom: 2px solid #1971b9bd;
+        }
+
+        /* Área de Interação */
+        .controles {
+            padding: 20px;
+        }
+
+        .input-grupo {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        input {
+            padding: 12px;
+            border: 2px solid #00ffd5a8;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        input:focus { border-color: var(--primary); }
+
+        button {
+            background-color: var(--success);
+            color: rgb(5, 33, 190);
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:active { transform: scale(0.95); }
+
+        /* Rodapé com o Total */
+        .footer-total {
+            background: hsl(172, 100%, 50%);
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--dark);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="header">
+            <h1> 🏎️Carros Shop</h1>
+            <p>Carros rapidos direto para você 🚘</p>
+        </div>
+
+        <!-- Esta div funciona como o "escreva" do Portugol -->
+        <div id="tela-saida">
+            Bem-vindo!<br>
+            1 - Porsche 911 Turbo S (R$ 2.150.000)<br>
+            2 - Lamborghini Aventador (R$9.356.860,00)<br>
+            3 - Ferrari F80 (R$ 23.000.000,00)<br>
+            4 - FINALIZAR<br>
+            --------------------<br>
+            Digite o número da opção:
+        </div>
+
+        <div class="controles">
+            <div class="input-grupo">
+                <input type="number" id="inputOpcao" placeholder="Ex: 1" min="1" max="4">
+                <button onclick="executarLogica()">Confirmar Opção</button>
+            </div>
+        </div>
+
+        <div class="footer-total" id="exibirTotal">
+            Total: R$ 0,00
+        </div>
+    </div>
+
+    <script>
+        /* JAVASCRIPT: Aqui entra a LÓGICA (O Cérebro) */
+        
+        // 1. Variáveis Globais (Igual no Portugol)
+        let total = 0.0;
+        const tela = document.getElementById("tela-saida");
+        const displayTotal = document.getElementById("exibirTotal");
+
+        function executarLogica() {
+            // Pegamos o valor do input (Igual ao 'leia' do Portugol)
+            const input = document.getElementById("inputOpcao");
+            let opcao = parseInt(input.value);
+
+            // 2. A Estrutura de Decisão (Igual ao Escolha-Caso)
+            switch(opcao) {
+                case 1:
+                    total += 2.150000;
+                    imprimirNaTela("🚘 Adicionado: Porsche 911 Turbo S (R$ 2.150.000)");
+                    break;
+                
+                case 2:
+                    total += 9.35686000;
+                    imprimirNaTela("🚗 Adicionado:Lamborghini Aventador (R$9.356.860,00)");
+                    break;
+
+                case 3:
+                    total += 23.00000000000;
+                    imprimirNaTela("🏎️ Adicionado:Ferrari F80 (R$ 23.000.000)");
+                    break;
+
+                case 4:
+                    imprimirNaTela("🚙 Agradecemos por escolher a Carros Shop!");
+                    alert("Pedido Finalizado! Valor Total: R$ " + total.toFixed(2));
+                    // Opcional: reiniciar o sistema
+                    // total = 0;
+                    break;
+
+                default:
+                    imprimirNaTela("❌ OPÇÃO INVÁLIDA! Escolha 1, 2, 3 ou 4.");
+            }
+
+            // Atualiza o valor no rodapé (Visual)
+            displayTotal.innerText = "Total: R$ 0" + total.toFixed(2);
+            
+            // Limpa o campo para a próxima jogada
+            input.value = "";
+            input.focus();
+        }
+
+        // Função auxiliar para "escrever" na nossa tela preta
+        function imprimirNaTela(texto) {
+            tela.innerHTML += "<br>" + texto;
+            // Faz o scroll automático para o final da tela
+            tela.scrollTop = tela.scrollHeight;
+        }
+
+        // Atalho: apertar ENTER também funciona
+        document.getElementById("inputOpcao").addEventListener("keypress", function(e) {
+            if (e.key === "Enter") executarLogica();
+        });
+    </script>
+
+</body></html>
